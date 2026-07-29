@@ -9,6 +9,7 @@ import {
   FaqList,
   CallOrBook,
 } from "@/components/blocks";
+import { CredentialsBlock, FeesBlock } from "@/components/TrustBlocks";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema, faqSchema } from "@/lib/schema";
 
@@ -157,6 +158,18 @@ export default function InsuranceBillingPage() {
           }
         />
         <StepSequence steps={wcbSteps} />
+      </section>
+
+      {/* ── Appointment lengths and cost ─────────────────────────────────── */}
+      <section className="shell band">
+        <FeesBlock />
+      </section>
+
+      {/* ── Credentials ─────────────────────────────────────────────────── */}
+      <section className="band band-inset">
+        <div className="shell">
+          <CredentialsBlock />
+        </div>
       </section>
 
       {/* ── Paying yourself ─────────────────────────────────────────────── */}

@@ -289,12 +289,15 @@
 
 .triage { display: grid; gap: var(--space-md); }
 
+/* Six options fit without scrolling — a scrollbar inside a decision list hides
+   choices and makes the task feel longer than it is. Two columns on wide
+   screens so the whole set is takeable in one glance. */
 .triage-options {
   display: grid;
   gap: var(--space-2xs);
-  max-height: 26rem;
-  overflow-y: auto;
-  padding-right: var(--space-2xs);
+}
+@media (min-width: 48rem) {
+  .triage-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 .triage-option {

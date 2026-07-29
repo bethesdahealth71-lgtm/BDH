@@ -100,22 +100,13 @@ export function StepSequence({ steps }: { steps: ClaimStep[] }) {
  * when they do not. It never invents one. See content/reviews.ts.
  */
 export function ReviewsSection() {
-  if (publishableReviews.length === 0) {
-    return (
-      <div className="panel-inset">
-        <h2 style={{ fontSize: "var(--text-2xl)", marginTop: 0, marginBottom: "var(--space-xs)" }}>
-          What patients say
-        </h2>
-        <p style={{ marginTop: 0, color: "var(--color-ink-2)" }}>
-          We would rather show you nothing than show you something we wrote ourselves. Verified
-          reviews from Google will appear here once the Business Profile feed is connected.
-        </p>
-        <p style={{ marginBottom: 0, fontSize: "var(--text-sm)", color: "var(--color-ink-3)" }}>
-          Treated here? Leaving a review helps the next person in pain find us.
-        </p>
-      </div>
-    );
-  }
+  // No real reviews yet → render nothing at all.
+  //
+  // Renders nothing rather than an "our reviews are coming soon" notice: a
+  // patient does not care about our content pipeline, and an empty-state
+  // apology makes the clinic look unfinished. Omission is honest; a
+  // placeholder notice is just noise. See content/reviews.ts to populate.
+  if (publishableReviews.length === 0) return null;
 
   return (
     <div>

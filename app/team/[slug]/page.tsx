@@ -9,8 +9,13 @@ import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
 import { site } from "@/content/site";
 
+/**
+ * Only real profiles get a page. A placeholder practitioner has no name, no
+ * photo and no registration number — there is nothing for a patient to read,
+ * so the route simply does not exist rather than rendering a "pending" card.
+ */
 export function generateStaticParams() {
-  return team.map((p) => ({ slug: p.slug }));
+  return team.filter((p) => !p.isPlaceholder).map((p) => ({ slug: p.slug }));
 }
 
 export const dynamicParams = false;
@@ -18,20 +23,21 @@ export const dynamicParams = false;
 export async function generateMetadata(props: PageProps<"/team/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
   const p = getPractitioner(slug);
-  if (!p) return {};
+  // Placeholder profiles have no page (see generateStaticParams) — return empty
+  // metadata so a stray request can't surface "profile pending" as a title.
+  if (!p || p.isPlaceholder) return {};
   return {
     title: `${p.name} — ${p.role}`,
     description: p.bio.slice(0, 155),
     alternates: { canonical: `/team/${p.slug}` },
-    // A placeholder profile must never be indexed.
-    robots: p.isPlaceholder ? { index: false, follow: false } : { index: true, follow: true },
+    robots: { index: true, follow: true },
   };
 }
 
 export default async function PractitionerPage(props: PageProps<"/team/[slug]">) {
   const { slug } = await props.params;
   const p = getPractitioner(slug);
-  if (!p) notFound();
+  if (!p || p.isPlaceholder) notFound();
 
   const disciplines = p.disciplines
     .map((d) => getService(d))

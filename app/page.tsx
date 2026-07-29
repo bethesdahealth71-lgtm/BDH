@@ -5,7 +5,6 @@ import { site } from "@/content/site";
 import { TriageWizard } from "@/components/TriageWizard";
 import { Reveal } from "@/components/motion/Reveal";
 import { HeroIntro } from "@/components/motion/HeroIntro";
-import { CredentialsBlock, FeesBlock } from "@/components/TrustBlocks";
 import { Figure } from "@/components/ServiceHeroImage";
 import { photos } from "@/content/photos";
 import {
@@ -57,8 +56,7 @@ export default function HomePage() {
                 <span className="hero-rule" data-hero-frame aria-hidden="true" />
                 <p className="lede" data-hero-item>
                   Physiotherapy, massage, chiropractic and acupuncture at two Edmonton clinics.
-                  No referral needed. Most plans billed directly. Car accident and workplace
-                  claims handled end to end — including the paperwork.
+                  No referral needed, and we bill most plans directly.
                 </p>
 
                 <div className="hero-support" data-hero-item>
@@ -110,7 +108,7 @@ export default function HomePage() {
         <div className="shell">
           <SectionHead
             title="Hurt in a car accident, or at work?"
-            lede="These are the two situations where people lose the most time and money guessing. Both are usually funded — and the admin is ours, not yours."
+            lede="Both are usually funded, and we handle the paperwork."
           />
           <Reveal className="pathways" stagger={0.1}>
             {claimServices.map((s) => (
@@ -132,7 +130,7 @@ export default function HomePage() {
       <section className="shell band">
         <SectionHead
           title="What we treat"
-          lede="Six disciplines under one roof, so your physiotherapist and your massage therapist are talking to each other instead of past each other."
+          lede="Six disciplines under one roof, so your practitioners talk to each other."
           action={
             <Link href="/services" className="btn btn-chip">
               All services
@@ -154,16 +152,9 @@ export default function HomePage() {
         </Reveal>
       </section>
 
-      {/* ── Credentials + fees — the Trust & Authority requirements ───────── */}
-      <section className="shell band">
-        <CredentialsBlock />
-      </section>
-
-      <section className="band band-inset">
-        <div className="shell">
-          <FeesBlock />
-        </div>
-      </section>
+      {/* Credentials and fees moved to /insurance-billing — they are reference
+          material people seek out, not front-door content. The homepage was
+          11 sections and 10 screens deep; this is the trim. */}
 
       {/* ── How care works · diptych flipped — proof left, claim right ───── */}
       <section className="shell band">
