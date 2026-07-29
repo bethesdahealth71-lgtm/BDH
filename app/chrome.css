@@ -3,20 +3,21 @@
 
 /* ------------------------------------------------- N12 · banner + retract */
 
+/* The banner is NOT inside the sticky header. It is a plain block that scrolls
+   away on its own. Putting it inside and collapsing its height mid-scroll
+   moved every element below it — sticky elements stay in normal flow. */
+.banner {
+  background-color: var(--color-ink-paper);
+  color: var(--color-on-ink);
+}
+
+.nav-sentinel { height: 1px; margin-bottom: -1px; }
+
 .site-header {
   position: sticky;
   top: 0;
   z-index: var(--z-header);
 }
-
-.banner {
-  background-color: var(--color-ink-paper);
-  color: var(--color-on-ink);
-  overflow: hidden;
-  max-height: 5rem;
-  transition: max-height var(--dur-mid) var(--ease-out);
-}
-.banner[data-hidden="true"] { max-height: 0; }
 
 .banner-inner {
   display: flex;
@@ -55,7 +56,9 @@
 
 .navbar {
   background-color: var(--color-paper);
-  border-bottom: var(--rule-hair) solid var(--color-rule);
+  border-bottom: var(--rule-hair) solid transparent;
+  transition: background-color var(--dur-mid) var(--ease-out),
+              border-color var(--dur-mid) var(--ease-out);
 }
 
 .navbar-inner {
@@ -64,6 +67,51 @@
   gap: var(--space-lg);
   padding-block: var(--space-sm);
   min-height: 4rem;
+  border-radius: 0;
+  transition: background-color var(--dur-mid) var(--ease-out),
+              box-shadow var(--dur-mid) var(--ease-out),
+              border-radius var(--dur-mid) var(--ease-out),
+              transform var(--dur-mid) var(--ease-out),
+              padding-inline var(--dur-mid) var(--ease-out);
+}
+
+/* ── Floating on scroll ──────────────────────────────────────────────────────
+   Once past the top the bar detaches into a floating pill. Only paint
+   properties change — background, radius, shadow, and a small translate. The
+   header's HEIGHT is untouched, so nothing below it ever moves. That is the
+   whole reason this doesn't reintroduce the jitter it replaced. */
+
+@media (min-width: 62rem) {
+  .site-header[data-floating="true"] .navbar {
+    background-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  .site-header[data-floating="true"] .navbar-inner {
+    max-width: 70rem;
+    padding-inline: var(--space-lg);
+    border-radius: 999px;
+    background-color: color-mix(in oklab, var(--color-paper) 82%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    box-shadow:
+      0 1px 2px oklch(24% 0.021 62 / 0.05),
+      0 8px 24px -8px oklch(24% 0.021 62 / 0.14);
+    transform: translateY(var(--space-xs));
+  }
+}
+
+/* Below the lg breakpoint the bar stays a plain edge-to-edge strip — a pill
+   with side margins wastes horizontal space on a phone, and the sticky CTA
+   bar already owns the floating-chrome role down there. */
+.site-header[data-floating="true"] .navbar {
+  border-bottom-color: var(--color-rule);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .site-header[data-floating="true"] .navbar-inner {
+    background-color: var(--color-paper);
+  }
 }
 
 .brand {
