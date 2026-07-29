@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { booking, site } from "@/content/site";
+import { BookingSkeleton } from "./Skeleton";
 
 /**
  * JaneApp booking, embedded rather than linked away to.
@@ -57,9 +58,7 @@ export function BookingEmbed({
           referrerPolicy="strict-origin-when-cross-origin"
         />
       ) : (
-        <div className="booking-fallback">
-          <p style={{ margin: 0, color: "var(--color-ink-3)" }}>Loading the booking calendar…</p>
-        </div>
+        <BookingSkeleton />
       )}
 
       <p className="field-note" style={{ marginTop: "var(--space-sm)" }}>

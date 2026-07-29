@@ -6,6 +6,8 @@ import { TriageWizard } from "@/components/TriageWizard";
 import { Reveal } from "@/components/motion/Reveal";
 import { HeroIntro } from "@/components/motion/HeroIntro";
 import { CredentialsBlock, FeesBlock } from "@/components/TrustBlocks";
+import { Figure } from "@/components/ServiceHeroImage";
+import { photos } from "@/content/photos";
 import {
   AccessStrip,
   SectionHead,
@@ -41,39 +43,59 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ── Hero · H2 split diptych, 7/5, right half is the triage ───────── */}
-      <section className="shell hero">
-        <HeroIntro>
-          <div data-hero-item>
-            <h1 className="hero-title">
-              Tell us where it hurts.
-              <br />
-              <span className="accent">We&rsquo;ll take it from there.</span>
-            </h1>
-            <p className="lede" style={{ marginTop: "var(--space-lg)" }}>
-              Physiotherapy, massage, chiropractic and acupuncture at two Edmonton clinics. No
-              referral needed. Most plans billed directly. Car accident and workplace claims
-              handled end to end — including the paperwork.
-            </p>
+      {/* ── Hero · copy left, photograph right, accent rule sweeping out ─── */}
+      <section className="hero-band">
+        <div className="shell">
+          <HeroIntro>
+            <div className="hero-grid">
+              <div className="hero-copy">
+                <h1 className="hero-title" data-hero-item>
+                  Tell us where it hurts.
+                  <br />
+                  <span className="accent">We&rsquo;ll take it from there.</span>
+                </h1>
+                <span className="hero-rule" data-hero-frame aria-hidden="true" />
+                <p className="lede" data-hero-item>
+                  Physiotherapy, massage, chiropractic and acupuncture at two Edmonton clinics.
+                  No referral needed. Most plans billed directly. Car accident and workplace
+                  claims handled end to end — including the paperwork.
+                </p>
 
-            <div className="hero-support">
-              <Link href="/book" className="btn btn-primary">
-                Book online
-              </Link>
-              <a href={site.phoneHref} className="tlink">
-                {site.phone} <span aria-hidden="true">→</span>
-              </a>
+                <div className="hero-support" data-hero-item>
+                  <Link href="/book" className="btn btn-primary">
+                    Book online
+                  </Link>
+                  <a href={site.phoneHref} className="tlink">
+                    {site.phone} <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+
+                <p className="hero-meta" data-hero-item>
+                  Mon–Sat, 9am–8pm · South (Parsons Road) &amp; West (156 Street)
+                </p>
+              </div>
+
+              <Figure
+                photo={photos.hero}
+                ratio="4 / 5"
+                priority
+                sizes="(max-width: 60rem) 100vw, 42vw"
+                className="hero-figure"
+              />
             </div>
+          </HeroIntro>
+        </div>
+      </section>
 
-            <p style={{ marginTop: "var(--space-xl)", fontSize: "var(--text-sm)", color: "var(--color-ink-3)" }}>
-              Mon–Sat, 9am–8pm · South (Parsons Road) &amp; West (156 Street)
-            </p>
-          </div>
-
-          <div className="hero-panel" data-hero-item>
-            <TriageWizard />
-          </div>
-        </HeroIntro>
+      {/* ── Triage — its own band, so the anxious visitor can't miss it ──── */}
+      <section className="band-tight triage-band">
+        <div className="shell">
+          <Reveal>
+            <div className="hero-panel triage-panel">
+              <TriageWizard />
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* ── Access facts. Not stats — things we can actually stand behind. ── */}
@@ -179,6 +201,12 @@ export default function HomePage() {
               If physiotherapy is not the right answer for what you have, we will tell you that
               too — and point you at what is.
             </p>
+            <Figure
+              photo={photos.consultation}
+              ratio="16 / 10"
+              className="figure-soft"
+              sizes="(max-width: 60rem) 100vw, 40vw"
+            />
           </div>
         </div>
       </section>

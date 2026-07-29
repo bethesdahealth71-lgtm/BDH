@@ -6,6 +6,9 @@ import { mvaSteps, wcbSteps } from "@/content/billing";
 import { team } from "@/content/team";
 import { site } from "@/content/site";
 import { BookingEmbed } from "@/components/BookingEmbed";
+import { Figure } from "@/components/ServiceHeroImage";
+import { servicePhotos } from "@/content/photos";
+import { Reveal } from "@/components/motion/Reveal";
 import {
   Breadcrumbs,
   FaqList,
@@ -53,6 +56,8 @@ export default async function ServicePage(props: PageProps<"/services/[slug]">) 
   const claimSteps =
     service.slug === "mva-recovery" ? mvaSteps : service.slug === "wcb-recovery" ? wcbSteps : null;
   const tone = service.claimPathway ? "clay" : "accent";
+  // Absent for acupuncture and chiropractic on purpose — see content/photos.ts.
+  const photo = servicePhotos[service.slug];
 
   return (
     <>
@@ -91,19 +96,29 @@ export default async function ServicePage(props: PageProps<"/services/[slug]">) 
             </div>
           </div>
 
-          <aside className="hero-panel">
-            <h2 style={{ fontSize: "var(--text-2xl)", marginTop: 0 }}>
-              {service.claimPathway ? "What this covers" : "What this includes"}
-            </h2>
-            <ul
-              className="col-list"
-              style={{ gridTemplateColumns: "1fr", marginTop: "var(--space-md)" }}
-            >
-              {service.includes.map((i) => (
-                <li key={i}>{i}</li>
-              ))}
-            </ul>
-          </aside>
+          <div style={{ display: "grid", gap: "var(--space-lg)" }}>
+            {photo && (
+              <Figure
+                photo={photo}
+                ratio="4 / 3"
+                priority
+                sizes="(max-width: 60rem) 100vw, 42vw"
+              />
+            )}
+            <aside className="hero-panel">
+              <h2 style={{ fontSize: "var(--text-2xl)", marginTop: 0 }}>
+                {service.claimPathway ? "What this covers" : "What this includes"}
+              </h2>
+              <ul
+                className="col-list"
+                style={{ gridTemplateColumns: "1fr", marginTop: "var(--space-md)" }}
+              >
+                {service.includes.map((i) => (
+                  <li key={i}>{i}</li>
+                ))}
+              </ul>
+            </aside>
+          </div>
         </div>
       </section>
 
@@ -115,7 +130,9 @@ export default async function ServicePage(props: PageProps<"/services/[slug]">) 
               title="How the claim actually works"
               lede="Five steps. You do two of them; we do the rest."
             />
-            <StepSequence steps={claimSteps} />
+            <Reveal>
+              <StepSequence steps={claimSteps} />
+            </Reveal>
             <p style={{ marginTop: "var(--space-lg)" }}>
               <Link href="/insurance-billing" className="tlink">
                 Insurance &amp; billing in full <span aria-hidden="true">→</span>
@@ -156,14 +173,14 @@ export default async function ServicePage(props: PageProps<"/services/[slug]">) 
           title={service.claimPathway ? "What happens when you come in" : "What a session looks like"}
           lede="Knowing what is about to happen takes most of the nerves out of a first appointment."
         />
-        <ol className="steps">
+        <Reveal as="ol" className="steps" stagger={0.06}>
           {service.session.map((s) => (
             <li key={s.title} className="step">
               <h3 className="step-title">{s.title}</h3>
               <p className="step-body">{s.body}</p>
             </li>
           ))}
-        </ol>
+        </Reveal>
       </section>
 
       {/* ── Practitioners ────────────────────────────────────────────────── */}

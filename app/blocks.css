@@ -50,6 +50,16 @@
 .access-strip strong { font-size: var(--text-base); font-weight: 700; }
 .access-strip span { font-size: var(--text-sm); color: var(--color-ink-2); line-height: 1.45; }
 
+.access-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2xs);
+}
+
+/* Icons are decorative here — the adjacent heading already names the fact —
+   so they are aria-hidden and never the sole carrier of meaning. */
+
 /* Service / location index rows */
 .index-list { display: grid; }
 .index-row-inner {
@@ -150,8 +160,26 @@
   background-color: var(--color-paper-2);
 }
 
-/* Hero */
-.hero { padding-block: var(--space-3xl) var(--space-4xl); }
+/* ------------------------------------------------------------------- hero */
+/* A warm paper wash behind the fold — two stops of the existing paper tokens,
+   not a decorative gradient. It gives the photograph something to sit on. */
+
+.hero-band {
+  position: relative;
+  padding-block: var(--space-3xl) var(--space-4xl);
+  background:
+    radial-gradient(120% 90% at 88% 12%, var(--color-accent-soft) 0%, transparent 55%),
+    linear-gradient(180deg, var(--color-paper-2) 0%, var(--color-paper) 78%);
+  overflow: clip;
+}
+
+.hero-grid { display: grid; gap: var(--space-2xl); align-items: center; }
+@media (min-width: 62rem) {
+  .hero-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: var(--space-3xl); }
+}
+
+.hero-copy { min-width: 0; }
+
 .hero-title {
   font-size: var(--text-display);
   line-height: var(--leading-tight);
@@ -160,13 +188,67 @@
 }
 .hero-title .accent { color: var(--color-accent); }
 
+/* The sweeping rule — echoes the range-of-motion mark in the wordmark. */
+.hero-rule {
+  display: block;
+  width: clamp(4rem, 22%, 9rem);
+  height: 3px;
+  margin-top: var(--space-lg);
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-line));
+}
+
+.hero-copy .lede { margin-top: var(--space-lg); }
+
 .hero-support {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-md) var(--space-lg);
   align-items: center;
-  margin-top: var(--space-lg);
+  margin-top: var(--space-xl);
 }
+
+.hero-meta {
+  margin-top: var(--space-xl);
+  font-size: var(--text-sm);
+  color: var(--color-ink-3);
+}
+
+/* ---------------------------------------------------------------- figures */
+
+.figure { margin: 0; display: grid; gap: var(--space-sm); min-width: 0; }
+
+.figure-media {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-paper-inset);
+  border: var(--rule-hair) solid var(--color-rule);
+}
+
+.figure-caption { font-size: var(--text-sm); color: var(--color-ink-3); }
+
+/* Hero figure gets a subtle offset accent plate behind it — depth from
+   geometry, not from a drop shadow. */
+.hero-figure { position: relative; }
+.hero-figure::before {
+  content: "";
+  position: absolute;
+  inset: auto -0.75rem -0.75rem auto;
+  width: 55%;
+  height: 55%;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-accent-soft);
+  z-index: -1;
+}
+@media (max-width: 62rem) { .hero-figure::before { display: none; } }
+
+.figure-soft { margin-top: var(--space-xl); }
+
+.triage-band { padding-top: 0; }
+.triage-panel { max-width: 46rem; margin-inline: auto; }
+@media (min-width: 62rem) { .triage-panel { max-width: none; } }
 
 .hero-panel {
   border: var(--rule-hair) solid var(--color-rule-strong);
@@ -217,6 +299,80 @@
   color: var(--color-ink-2);
   line-height: 1.5;
   max-width: var(--measure);
+}
+
+/* -------------------------------------------------------------- skeletons */
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skeleton {
+  display: block;
+  background-color: var(--color-paper-inset);
+  background-image: linear-gradient(
+    90deg,
+    var(--color-paper-inset) 0%,
+    var(--color-paper-2) 45%,
+    var(--color-paper-inset) 90%
+  );
+  background-size: 220% 100%;
+  animation: skeleton-sweep 1.4s var(--ease-in-out) infinite;
+}
+
+@keyframes skeleton-sweep {
+  from { background-position: 140% 0; }
+  to   { background-position: -40% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}
+
+.booking-skeleton {
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background-color: var(--color-paper);
+  padding: var(--space-lg);
+  min-height: 46rem;
+}
+.booking-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+/* ------------------------------------------------------ micro-interactions */
+/* One signal per element — a lift OR a colour shift, never four at once. */
+
+.panel, .pathway {
+  transition: transform var(--dur-short) var(--ease-out),
+              border-color var(--dur-short) var(--ease-out);
+}
+@media (hover: hover) {
+  .panel:hover, .pathway:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent-line);
+  }
+}
+
+/* Index rows get a travelling arrow rather than a background wash alone. */
+.index-row-go {
+  transition: transform var(--dur-short) var(--ease-out);
+}
+@media (hover: hover) {
+  .index-row:hover .index-row-go { transform: translateX(4px); }
+}
+
+.figure-media img { transition: transform var(--dur-long) var(--ease-out); }
+@media (hover: hover) {
+  .index-row:hover .figure-media img,
+  .panel:hover .figure-media img { transform: scale(1.03); }
 }
 
 /* Print — patients do print claim instructions */

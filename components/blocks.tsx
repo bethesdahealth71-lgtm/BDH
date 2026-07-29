@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ClipboardCheck, ShieldCheck, CalendarClock, MapPin } from "lucide-react";
 import type { Faq } from "@/content/services";
 import type { ClaimStep } from "@/content/billing";
 import { publishableReviews } from "@/content/reviews";
@@ -137,24 +138,38 @@ export function ReviewsSection() {
 
 /** Reassurance strip — facts about access, not invented metrics. */
 export function AccessStrip() {
+  const items = [
+    {
+      Icon: ClipboardCheck,
+      title: "No referral needed",
+      body: "Book physiotherapy, massage or chiropractic directly in Alberta.",
+    },
+    {
+      Icon: ShieldCheck,
+      title: "Direct billing",
+      body: "Most extended health plans, WCB Alberta and auto insurers.",
+    },
+    {
+      Icon: CalendarClock,
+      title: "Six days a week",
+      body: "Monday to Saturday, 9am to 8pm, at both clinics.",
+    },
+    {
+      Icon: MapPin,
+      title: "Two locations",
+      body: "South at Parsons Road, West at 156 Street.",
+    },
+  ];
+
   return (
     <ul className="access-strip">
-      <li>
-        <strong>No referral needed</strong>
-        <span>Book physiotherapy, massage or chiropractic directly in Alberta.</span>
-      </li>
-      <li>
-        <strong>Direct billing</strong>
-        <span>Most extended health plans, WCB Alberta and auto insurers.</span>
-      </li>
-      <li>
-        <strong>Six days a week</strong>
-        <span>Monday to Saturday, 9am to 8pm, at both clinics.</span>
-      </li>
-      <li>
-        <strong>Two locations</strong>
-        <span>South at Parsons Road, West at 156 Street.</span>
-      </li>
+      {items.map(({ Icon, title, body }) => (
+        <li key={title}>
+          <Icon className="access-icon" strokeWidth={1.5} aria-hidden="true" />
+          <strong>{title}</strong>
+          <span>{body}</span>
+        </li>
+      ))}
     </ul>
   );
 }
