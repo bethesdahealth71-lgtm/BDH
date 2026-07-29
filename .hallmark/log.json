@@ -1,0 +1,25 @@
+[
+  {
+    "date": "2026-07-29",
+    "macrostructure": "Split Studio",
+    "theme": "Garden",
+    "theme_axes": "light / roman-serif / chromatic-green",
+    "nav": "N12 Banner + retracting",
+    "footer": "Ft1 Mast-headed",
+    "enrichment": "none (typography-led; one Tier-B hand-built SVG mark)",
+    "genre": "editorial",
+    "motion": "GSAP — HeroIntro timeline + Standard-tier Reveal (gsap.from, matchMedia-gated)",
+    "brief": "Bethesda Health & Wellness — pass 2: ui-ux-pro-max Trust & Authority pass (credentials + fee transparency) and GSAP motion layer. Garden palette retained; the recommended pink/lavender spa palette was rejected as a category mismatch."
+  },
+  {
+    "date": "2026-07-29",
+    "macrostructure": "Split Studio",
+    "theme": "Garden",
+    "theme_axes": "light / roman-serif / chromatic-green",
+    "nav": "N12 Banner + retracting",
+    "footer": "Ft1 Mast-headed",
+    "enrichment": "none",
+    "genre": "editorial",
+    "brief": "Bethesda Health & Wellness — pass 1: initial build, multi-location Edmonton physiotherapy clinic"
+  }
+]

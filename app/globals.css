@@ -1,0 +1,325 @@
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./chrome.css";
+@import "./blocks.css";
+
+/* Hallmark · pre-emit critique: P5 H5 E4 S4 R5 V5
+ * genre: editorial · macrostructure: Split Studio · theme: Garden
+ * H2 Split-diptych knobs: ratio=7/5, right=proof column, divider=negative space
+ * nav: N12 Banner + retracting · footer: Ft1 Mast-headed
+ * enrichment: none (typography-led; one Tier-B hand-built SVG mark)
+ * tone: editorial-warm, grounded, clinical-but-human
+ * axes — paper: light · display: roman-serif · accent: chromatic-green (148°)
+ */
+
+@theme inline {
+  --color-paper: var(--color-paper);
+  --color-ink: var(--color-ink);
+  --color-accent: var(--color-accent);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+/* ------------------------------------------------------------------ base */
+
+html {
+  overflow-x: clip;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: clip;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  line-height: var(--leading-body);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-style: normal; /* roman only — italic headers are banned */
+  font-weight: 460;
+  line-height: var(--leading-snug);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+p, li { text-wrap: pretty; }
+a { color: inherit; }
+svg { display: block; }
+
+:focus-visible {
+  outline: var(--rule-thick) solid var(--color-focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+  /* never transitioned — the ring must appear instantly */
+}
+
+::selection {
+  background-color: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+/* ------------------------------------------------------------- primitives */
+
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.shell-tight {
+  width: 100%;
+  max-width: 62rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-md);
+  top: var(--space-md);
+  z-index: var(--z-modal);
+  transform: translateY(-300%);
+  background-color: var(--color-ink);
+  color: var(--color-on-ink);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform var(--dur-short) var(--ease-out);
+}
+.skip-link:focus { transform: translateY(0); }
+
+/* Split Studio diptych — the page's structural signature.
+   Every major block is two halves, generous gutter, no dividing rule. */
+.diptych {
+  display: grid;
+  gap: var(--space-2xl) var(--space-3xl);
+  align-items: start;
+}
+@media (min-width: 60rem) {
+  .diptych { grid-template-columns: 7fr 5fr; }
+  .diptych[data-flip="true"] { grid-template-columns: 5fr 7fr; }
+  .diptych[data-flip="true"] > :first-child { order: 2; }
+  .diptych[data-even="true"] { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+
+.rule { border: 0; border-top: var(--rule-hair) solid var(--color-rule); margin: 0; }
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.lede {
+  font-size: var(--text-xl);
+  line-height: 1.52;
+  color: var(--color-ink-2);
+  max-width: var(--measure);
+}
+
+.prose-block { max-width: var(--measure); }
+.prose-block p + p { margin-top: var(--space-md); }
+.prose-block h2 { font-size: var(--text-3xl); margin-block: var(--space-2xl) var(--space-sm); }
+.prose-block h3 { font-size: var(--text-2xl); margin-block: var(--space-xl) var(--space-2xs); }
+.prose-block ul { margin-top: var(--space-md); display: grid; gap: var(--space-xs); }
+.prose-block li { padding-left: var(--space-lg); position: relative; }
+.prose-block li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 0.55rem;
+  height: var(--rule-thick);
+  background-color: var(--color-accent-line);
+}
+
+/* ---------------------------------------------------------------- actions */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-height: 2.875rem;
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 600;
+  white-space: nowrap; /* clickable text never wraps to two lines */
+  border-radius: var(--radius-sm);
+  border: var(--rule-thick) solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--dur-short) var(--ease-out),
+              border-color var(--dur-short) var(--ease-out),
+              color var(--dur-short) var(--ease-out);
+}
+
+.btn-primary { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-paper); }
+.btn-primary:hover { background-color: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+
+/* C1 · Outlined chip — the Split Studio button voice */
+.btn-chip { background-color: transparent; border-color: var(--color-rule-strong); color: var(--color-ink); }
+.btn-chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+.btn-clay { background-color: var(--color-clay); border-color: var(--color-clay); color: var(--color-paper); }
+.btn-clay:hover { background-color: var(--color-clay-hover); border-color: var(--color-clay-hover); }
+
+.btn:disabled,
+.btn[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+
+.btn[data-state="loading"] { cursor: progress; }
+.btn[data-state="error"] { background-color: var(--color-clay); border-color: var(--color-clay); color: var(--color-paper); }
+.btn[data-state="success"] { background-color: var(--color-accent-hover); border-color: var(--color-accent-hover); color: var(--color-paper); }
+
+/* C3 · Typographic link — a word, an arrow, a 1px underline */
+.tlink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4em;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: var(--rule-hair) solid var(--color-accent-line);
+  padding-bottom: 1px;
+  transition: border-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out);
+}
+.tlink:hover { border-bottom-color: var(--color-accent); color: var(--color-accent-hover); }
+
+.inline-link {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--color-accent-line);
+  transition: text-decoration-color var(--dur-short) var(--ease-out);
+}
+.inline-link:hover { text-decoration-color: var(--color-accent); }
+
+/* ------------------------------------------------------------------ cards */
+/* Single containment layer. Hairline, no nesting, no side-stripe. */
+
+.panel {
+  background-color: var(--color-paper);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+.panel-inset {
+  background-color: var(--color-paper-2);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+/* Index row — the service / location list voice. Hairline rows, no boxes. */
+.index-row {
+  display: block;
+  padding-block: var(--space-lg);
+  padding-inline: var(--space-sm);
+  margin-inline: calc(var(--space-sm) * -1);
+  border-top: var(--rule-hair) solid var(--color-rule);
+  text-decoration: none;
+  transition: background-color var(--dur-short) var(--ease-out);
+}
+.index-row:hover { background-color: var(--color-accent-soft); }
+.index-list > .index-row:last-child { border-bottom: var(--rule-hair) solid var(--color-rule); }
+
+/* ------------------------------------------------------------------ forms */
+
+.field { display: grid; gap: var(--space-2xs); }
+.field-label { font-size: var(--text-sm); font-weight: 600; color: var(--color-ink-2); }
+
+.field-input {
+  width: 100%;
+  min-height: 2.875rem;
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  border: var(--rule-hair) solid var(--color-rule-strong);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--dur-short) var(--ease-out);
+}
+.field-input:hover { border-color: var(--color-ink-3); }
+.field-input[aria-invalid="true"] { border-color: var(--color-clay); }
+.field-input:disabled { background-color: var(--color-paper-2); cursor: not-allowed; }
+.field-input::placeholder { color: var(--color-ink-3); }
+
+.field-note { font-size: var(--text-sm); color: var(--color-ink-3); }
+.field-error { font-size: var(--text-sm); color: var(--color-clay-hover); font-weight: 600; }
+.field-success { font-size: var(--text-sm); color: var(--color-accent-hover); font-weight: 600; }
+
+/* -------------------------------------------------------------- accordion */
+
+.faq-item { border-top: var(--rule-hair) solid var(--color-rule); }
+.faq-list > .faq-item:last-child { border-bottom: var(--rule-hair) solid var(--color-rule); }
+
+.faq-item > summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding-block: var(--space-lg);
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 460;
+  line-height: var(--leading-snug);
+  transition: color var(--dur-short) var(--ease-out);
+}
+.faq-item > summary::-webkit-details-marker { display: none; }
+.faq-item > summary:hover { color: var(--color-accent); }
+
+.faq-item > summary::after {
+  content: "+";
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  color: var(--color-ink-3);
+  transition: transform var(--dur-short) var(--ease-out);
+}
+.faq-item[open] > summary::after { transform: rotate(45deg); }
+
+.faq-answer { max-width: var(--measure); padding-bottom: var(--space-lg); color: var(--color-ink-2); }
+
+/* ----------------------------------------------------------------- motion */
+/* Motion is owned by GSAP (components/motion/*), not CSS keyframes.
+ *
+ * The rule that makes it safe: every tween is a `gsap.from()`, so elements
+ * render VISIBLE in the HTML and animate *from* hidden after hydration. There
+ * is deliberately no `opacity: 0` default anywhere — if JS never runs, the page
+ * is fully readable, which matters because local SEO is this site's whole job.
+ *
+ * `prefers-reduced-motion` is handled inside gsap.matchMedia(): under that
+ * preference no tween is created at all, so content simply sits where it is.
+ * The global reduced-motion block above still covers CSS transitions.
+ */

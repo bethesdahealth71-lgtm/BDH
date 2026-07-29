@@ -1,0 +1,228 @@
+/* Hallmark · block-level composition. Tokens only. */
+
+/* S2 · hanging section head — single column stack, never tag-left/heading-right */
+.section-head {
+  display: grid;
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+@media (min-width: 60rem) {
+  .section-head { grid-template-columns: 1fr auto; align-items: end; }
+  .section-head-action { justify-self: end; }
+}
+
+/* Section rhythm — deliberately uneven. Not every section is padded the same. */
+.band { padding-block: var(--space-4xl); }
+.band-tight { padding-block: var(--space-3xl); }
+.band-loose { padding-block: var(--space-5xl) var(--space-4xl); }
+.band-inset { background-color: var(--color-paper-2); }
+.band-ink { background-color: var(--color-ink-paper); color: var(--color-on-ink); }
+.band-ink h2, .band-ink h3 { color: var(--color-on-ink); }
+.band-ink .lede { color: var(--color-on-ink-2); }
+
+.crumbs {
+  font-size: var(--text-sm);
+  color: var(--color-ink-3);
+  margin-bottom: var(--space-lg);
+}
+.crumbs a { color: var(--color-ink-3); text-decoration: none; }
+.crumbs a:hover { color: var(--color-accent); text-decoration: underline; }
+.crumbs [aria-current="page"] { color: var(--color-ink); }
+
+/* Access strip — facts, not stats. Asymmetric on purpose: 4 items, 2 rows of 2
+   at tablet, a single row at desktop, never a 3-up icon-tile grid. */
+.access-strip {
+  display: grid;
+  gap: var(--space-lg);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+@media (min-width: 40rem) { .access-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 68rem) { .access-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+.access-strip li {
+  display: grid;
+  gap: var(--space-2xs);
+  padding-top: var(--space-sm);
+  border-top: var(--rule-thick) solid var(--color-accent-line);
+}
+.access-strip strong { font-size: var(--text-base); font-weight: 700; }
+.access-strip span { font-size: var(--text-sm); color: var(--color-ink-2); line-height: 1.45; }
+
+/* Service / location index rows */
+.index-list { display: grid; }
+.index-row-inner {
+  display: grid;
+  gap: var(--space-2xs) var(--space-lg);
+  align-items: baseline;
+}
+@media (min-width: 46rem) {
+  .index-row-inner { grid-template-columns: minmax(0, 22rem) minmax(0, 1fr) auto; }
+}
+.index-row-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 460;
+  line-height: 1.15;
+  color: var(--color-ink);
+}
+.index-row-summary { font-size: var(--text-base); color: var(--color-ink-2); }
+.index-row-go { font-size: var(--text-sm); font-weight: 600; color: var(--color-accent); white-space: nowrap; }
+
+/* Two-column lists — conditions, includes */
+.col-list {
+  display: grid;
+  gap: var(--space-xs);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+@media (min-width: 40rem) { .col-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.col-list li {
+  position: relative;
+  padding-left: var(--space-lg);
+  font-size: var(--text-base);
+  line-height: 1.45;
+}
+.col-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.68em;
+  width: 0.55rem;
+  height: var(--rule-thick);
+  background-color: var(--color-accent-line);
+}
+
+/* Practitioner cards */
+.people-grid { display: grid; gap: var(--space-lg); }
+@media (min-width: 44rem) { .people-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 70rem) { .people-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.person { display: grid; gap: var(--space-xs); align-content: start; }
+.person-name { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 460; line-height: 1.15; margin: 0; }
+.person-role { font-size: var(--text-sm); color: var(--color-ink-2); margin: 0; }
+.person-portrait {
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-md);
+  background-color: var(--color-paper-inset);
+  display: grid;
+  place-items: center;
+  color: var(--color-ink-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: var(--space-md);
+}
+
+.placeholder-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-clay-hover);
+  background-color: var(--color-clay-soft);
+  border: var(--rule-hair) solid var(--color-clay-line);
+  border-radius: var(--radius-xs);
+  padding: 2px var(--space-xs);
+}
+
+/* Reviews */
+.review-grid { display: grid; gap: var(--space-lg); }
+@media (min-width: 48rem) { .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.review blockquote { font-size: var(--text-lg); line-height: 1.5; }
+
+/* Location cards */
+.place-grid { display: grid; gap: var(--space-2xl); }
+@media (min-width: 56rem) { .place-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.map-frame {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background-color: var(--color-paper-2);
+}
+
+/* Hero */
+.hero { padding-block: var(--space-3xl) var(--space-4xl); }
+.hero-title {
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+.hero-title .accent { color: var(--color-accent); }
+
+.hero-support {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md) var(--space-lg);
+  align-items: center;
+  margin-top: var(--space-lg);
+}
+
+.hero-panel {
+  border: var(--rule-hair) solid var(--color-rule-strong);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-paper);
+  padding: var(--space-lg);
+}
+@media (min-width: 60rem) { .hero-panel { padding: var(--space-xl); } }
+
+/* Claim pathway pair — the two things this clinic is genuinely differentiated on */
+.pathways { display: grid; gap: var(--space-lg); }
+@media (min-width: 52rem) { .pathways { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.pathway {
+  display: grid;
+  gap: var(--space-sm);
+  align-content: start;
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  border: var(--rule-hair) solid var(--color-clay-line);
+  background-color: var(--color-clay-soft);
+}
+.pathway h3 { font-size: var(--text-3xl); margin: 0; }
+.pathway p { margin: 0; color: var(--color-ink-2); }
+
+/* Credentials — typographic rows, not a wall of borrowed badge logos */
+.cred-list { display: grid; gap: 0; margin: var(--space-lg) 0 0; }
+
+.cred-row {
+  display: grid;
+  gap: var(--space-2xs);
+  padding-block: var(--space-md);
+  border-top: var(--rule-hair) solid var(--color-rule);
+}
+.cred-list > .cred-row:last-child { border-bottom: var(--rule-hair) solid var(--color-rule); }
+
+.cred-label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  font-weight: 700;
+  font-size: var(--text-base);
+}
+.cred-detail {
+  margin: 0;
+  font-size: var(--text-base);
+  color: var(--color-ink-2);
+  line-height: 1.5;
+  max-width: var(--measure);
+}
+
+/* Print — patients do print claim instructions */
+@media print {
+  .site-header, .sticky-cta, .booking-embed, .site-footer { display: none !important; }
+  body { font-size: 11pt; }
+  .faq-item > summary::after { display: none; }
+  details { open: true; }
+}
