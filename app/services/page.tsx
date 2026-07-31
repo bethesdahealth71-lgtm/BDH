@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { careServices, claimServices } from "@/content/services";
 import { SectionHead, Breadcrumbs, EmergencyNote, CallOrBook } from "@/components/blocks";
+import { ServiceTiles } from "@/components/ServiceTiles";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
 
@@ -34,19 +35,7 @@ export default function ServicesPage() {
         lede="Six treatment disciplines and two claim-funded recovery programmes. If you are not sure which one you need, call us and describe it — that is a faster route than reading all of these."
       />
 
-      <div className="index-list">
-        {careServices.map((s) => (
-          <Link key={s.slug} href={`/services/${s.slug}`} className="index-row">
-            <div className="index-row-inner">
-              <span className="index-row-title">{s.name}</span>
-              <span className="index-row-summary">{s.summary}</span>
-              <span className="index-row-go" aria-hidden="true">
-                Read more →
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
+      <ServiceTiles services={careServices} />
 
       <div className="band-tight">
         <SectionHead

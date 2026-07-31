@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# graphify — generated knowledge graph. Reproducible with `/graphify`, and
+# .graphify_python stores an absolute path from whoever built it.
+graphify-out/
+
+# design reference material. Anything in /public is publicly served and lands
+# in every clone; a 17 MB reference video is neither a site asset nor something
+# we want on the CDN. Keep it locally, out of git.
+/public/videos/

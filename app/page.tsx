@@ -6,6 +6,8 @@ import { TriageWizard } from "@/components/TriageWizard";
 import { Reveal } from "@/components/motion/Reveal";
 import { HeroIntro } from "@/components/motion/HeroIntro";
 import { Figure } from "@/components/ServiceHeroImage";
+import { ServiceTiles } from "@/components/ServiceTiles";
+import { Checklist } from "@/components/Checklist";
 import { photos } from "@/content/photos";
 import {
   AccessStrip,
@@ -73,13 +75,20 @@ export default function HomePage() {
                 </p>
               </div>
 
-              <Figure
-                photo={photos.hero}
-                ratio="4 / 5"
-                priority
-                sizes="(max-width: 60rem) 100vw, 42vw"
-                className="hero-figure"
-              />
+              <div className="hero-figure">
+                <Figure
+                  photo={photos.hero}
+                  ratio="4 / 5"
+                  priority
+                  sizes="(max-width: 60rem) 100vw, 42vw"
+                />
+                <dl className="hero-card">
+                  <dt>Getting seen</dt>
+                  <dd>No referral needed</dd>
+                  <dt style={{ marginTop: "var(--space-xs)" }}>Paying</dt>
+                  <dd>Most plans billed directly</dd>
+                </dl>
+              </div>
             </div>
           </HeroIntro>
         </div>
@@ -137,18 +146,8 @@ export default function HomePage() {
             </Link>
           }
         />
-        <Reveal className="index-list" stagger={0.05}>
-          {careServices.map((s) => (
-            <Link key={s.slug} href={`/services/${s.slug}`} className="index-row">
-              <div className="index-row-inner">
-                <span className="index-row-title">{s.name}</span>
-                <span className="index-row-summary">{s.summary}</span>
-                <span className="index-row-go" aria-hidden="true">
-                  Read more →
-                </span>
-              </div>
-            </Link>
-          ))}
+        <Reveal stagger={0.05}>
+          <ServiceTiles services={careServices} />
         </Reveal>
       </section>
 
@@ -180,18 +179,17 @@ export default function HomePage() {
           </div>
 
           <div>
-            <h2 style={{ fontSize: "var(--text-4xl)", marginTop: 0 }}>
-              An hour that actually tells you something.
-            </h2>
-            <p className="lede">
-              Most people arrive having been told to rest it, ice it, and see how it goes. That is
-              not a plan. You should leave your first visit knowing what is wrong, roughly how long
-              it will take, and exactly what to do between now and the next appointment.
-            </p>
-            <p style={{ color: "var(--color-ink-2)" }}>
-              If physiotherapy is not the right answer for what you have, we will tell you that
-              too — and point you at what is.
-            </p>
+            <Checklist
+              title="An hour that actually tells you something."
+              lede="Most people arrive having been told to rest it and see how it goes. That is not a plan. Here is what you get instead."
+              items={[
+                "A diagnosis in plain language, not jargon",
+                "An honest estimate of how many visits it will take",
+                "Hands-on treatment on the first day, not just an assessment fee",
+                "Exercises written down, small enough that you will actually do them",
+                "A referral onward if physiotherapy is not the right answer",
+              ]}
+            />
             <Figure
               photo={photos.consultation}
               ratio="16 / 10"
